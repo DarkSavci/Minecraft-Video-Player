@@ -51,6 +51,7 @@ public final class AndroidInMC extends JavaPlugin {
         ColorManager.setupColorMap();
         Objects.requireNonNull(getCommand("processimage")).setExecutor(new ProcessImageCommand());
         Objects.requireNonNull(getCommand("processvideo")).setExecutor(new ProcessVideoCommand());
+        Objects.requireNonNull(getCommand("processstream")).setExecutor(new ProcessStreamCommand());
         Objects.requireNonNull(getCommand("undoimage")).setExecutor(new UndoCommand());
     }
 
@@ -67,6 +68,11 @@ public final class AndroidInMC extends JavaPlugin {
         latestLocation.add(location);
 
         pasteImage(world, x, y, z, image);
+    }
+
+    public void processStream(File streamDirectory, Location location) {
+        StreamFrameProcessor streamFrameProcessor = new StreamFrameProcessor(this, location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        streamFrameProcessor.start(streamDirectory);
     }
 
     public void processVideo(URL url, Location location) {
