@@ -14,12 +14,6 @@ public class ProcessStreamCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-        if (args.length != 1) {
-            sender.sendMessage("Usage: /processstream <url>");
-            return false;
-        }
-
         if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command!");
             return false;
