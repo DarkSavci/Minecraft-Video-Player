@@ -1,5 +1,6 @@
 package dev.bdinc.androidinmc;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
-class StreamFrameProcessor {
+public class StreamFrameProcessor {
 
     private final AndroidInMC plugin;
     private final World world;
@@ -53,7 +54,8 @@ class StreamFrameProcessor {
                         for (Path imagePath : newImages) {
                             BufferedImage image = ImageIO.read(imagePath.toFile());
                             if (image != null) {
-                                plugin.processImage(image, new Location(world, x, y, z));
+                                // Run the processImage method on the main server thread
+                                Bukkit.getScheduler().runTask(plugin, () -> plugin.processImage(image, new Location(world, x, y, z)));
                             }
                         }
 
