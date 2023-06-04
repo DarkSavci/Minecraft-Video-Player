@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
-class StreamFrameProcessor {
+public class StreamFrameProcessor {
 
     private final AndroidInMC plugin;
     private final World world;
@@ -52,7 +52,7 @@ class StreamFrameProcessor {
 
                         // Process the new images in order
                         for (Path imagePath : newImages) {
-                            BufferedImage image = readImageWithRetry(imagePath.toFile(), 3, 100);
+                            BufferedImage image = ImageIO.read(imagePath.toFile());
                             if (image != null) {
                                 // Run the processImage method on the main server thread
                                 Bukkit.getScheduler().runTask(plugin, () -> plugin.processImage(image, new Location(world, x, y, z)));
@@ -67,23 +67,4 @@ class StreamFrameProcessor {
             }
         }).start();
     }
-
-    private BufferedImage readImageWithRetry(File imageFile, int maxRetries, long retryDelay) {
-        int retries = 0;
-        while (retries < maxRetries) {
-            try {
-                BufferedImage image = ImageIO.read(imageFile);
-                return image;
-            } catch (IOException e) {
-                retries++;
-                try {
-                    Thread.sleep(retryDelay);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
-
 }
