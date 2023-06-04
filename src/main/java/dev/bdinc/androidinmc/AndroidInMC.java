@@ -39,8 +39,8 @@ public final class AndroidInMC extends JavaPlugin {
 
     private static AndroidInMC instance;
 
-    private static final int MAX_WIDTH = 100;
-    private static final int MAX_HEIGHT = 100;
+    private static final int MAX_WIDTH = 240;
+    private static final int MAX_HEIGHT = 240;
 
     public static ArrayList<Location> latestLocation = new ArrayList<>();
 
