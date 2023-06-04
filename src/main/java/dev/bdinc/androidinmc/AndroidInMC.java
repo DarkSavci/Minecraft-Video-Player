@@ -62,7 +62,7 @@ public final class AndroidInMC extends JavaPlugin {
     public void processImage(BufferedImage image, Location location) {
         World world = location.getWorld();
         int x = location.getBlockX() - MAX_WIDTH / 2;
-        int y = location.getBlockY() - 75;
+        int y = location.getBlockY() - 5;
         int z = location.getBlockZ() - MAX_HEIGHT / 2;
 
         latestLocation.add(location);
@@ -78,7 +78,7 @@ public final class AndroidInMC extends JavaPlugin {
     public void processVideo(URL url, Location location) {
         World world = location.getWorld();
         int x = location.getBlockX() - MAX_WIDTH / 2;
-        int y = location.getBlockY() - 75;
+        int y = location.getBlockY() - 10;
         int z = location.getBlockZ() - MAX_HEIGHT / 2;
 
         latestLocation.add(location);
@@ -172,7 +172,7 @@ public final class AndroidInMC extends JavaPlugin {
         Location location = latestLocation.get(latestLocation.size() - 1);
         World world = location.getWorld();
         int x = location.getBlockX() - MAX_WIDTH / 2;
-        int y = location.getBlockY() - 75;
+        int y = location.getBlockY() - 10;
         int z = location.getBlockZ() - MAX_HEIGHT / 2;
 
         for (int i = 0; i < MAX_WIDTH; i++) {
