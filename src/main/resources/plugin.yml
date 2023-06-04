@@ -1,0 +1,11 @@
+name: AndroidInMC
+version: '${project.version}'
+main: dev.bdinc.androidinmc.AndroidInMC
+api-version: 1.19
+commands:
+  processimage:
+    description: Processes the image
+  processvideo:
+    description: Processes the video
+  undoimage:
+    description: Undo the image
