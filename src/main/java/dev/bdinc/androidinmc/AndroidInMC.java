@@ -1,10 +1,18 @@
 package dev.bdinc.androidinmc;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_19_R3.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_19_R3.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.v1_19_R3.util.CraftMagicNumbers;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -75,13 +83,10 @@ public final class AndroidInMC extends JavaPlugin {
 
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(file)) {
 
-            Java2DFrameConverter converter = new Java2DFrameConverter();
-
             new BukkitRunnable() {
 
-                Java2DFrameConverter converter = new Java2DFrameConverter();
+                final Java2DFrameConverter converter = new Java2DFrameConverter();
                 Frame frame;
-                int frameNumber = 0;
                 boolean isFirst = true;
 
                 @Override
@@ -94,16 +99,12 @@ public final class AndroidInMC extends JavaPlugin {
                         }
 
                         if ((frame = grabber.grab()) != null) {
-                            System.out.println("Processing frame " + frameNumber);
                             BufferedImage bufferedImage = converter.getBufferedImage(frame);
-                            if (bufferedImage == null) {
-                                return;
-                            }
                             pasteImage(world, x, y, z, bufferedImage);
                         } else {
                             cancel();
                         }
-                        frameNumber++;
+
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -119,6 +120,7 @@ public final class AndroidInMC extends JavaPlugin {
     }
 
     private void pasteImage(World world, int x, int y, int z, BufferedImage image) {
+        long startTime = System.currentTimeMillis();
         int width = image.getWidth(null);
         int height = image.getHeight(null);
 
@@ -146,9 +148,11 @@ public final class AndroidInMC extends JavaPlugin {
                 Material material = ColorManager.getBlock(color);
 
                 assert world != null;
-                world.getBlockAt(x + i, y, z + j).setType(material, false);
+                setBlockInNativeWorld(world, x + i, y, z + j, material, true);
             }
         }
+        long endTime = System.currentTimeMillis();
+        Bukkit.broadcastMessage("Time taken: " + (endTime - startTime) + "ms");
     }
 
     public void undoLastImage() {
@@ -161,7 +165,7 @@ public final class AndroidInMC extends JavaPlugin {
         for (int i = 0; i < MAX_WIDTH; i++) {
             for (int j = 0; j < MAX_HEIGHT; j++) {
                 assert world != null;
-                world.getBlockAt(x + i, y, z + j).setType(Material.AIR, false);
+                setBlockInNativeWorld(world, x + i, y, z + j, Material.AIR, false);
             }
         }
     }
@@ -190,5 +194,11 @@ public final class AndroidInMC extends JavaPlugin {
         return null;
     }
 
+
+    public static void setBlockInNativeWorld(World world, int x, int y, int z, Material material, boolean applyPhysics) {
+        ServerLevel nmsWorld = ((CraftWorld) world).getHandle();
+        BlockPos blockPos = new BlockPos(x, y, z);
+        nmsWorld.setBlock(blockPos, CraftMagicNumbers.getBlock(material).defaultBlockState(), applyPhysics ? 3 : 2);
+    }
 
 }
