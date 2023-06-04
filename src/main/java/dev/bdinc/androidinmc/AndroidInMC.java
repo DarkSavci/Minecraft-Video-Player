@@ -83,43 +83,50 @@ public final class AndroidInMC extends JavaPlugin {
 
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(file)) {
 
-            new BukkitRunnable() {
+            Java2DFrameConverter converter = new Java2DFrameConverter();
+            VideoFrameProcessor videoFrameProcessor = new VideoFrameProcessor(this, world, x, y, z);
+            videoFrameProcessor.start();
 
-                final Java2DFrameConverter converter = new Java2DFrameConverter();
-                Frame frame;
-                boolean isFirst = true;
-
-                @Override
-                public void run() {
-                    try {
-                        if (isFirst) {
-                            grabber.start();
-                            isFirst = false;
-                            return;
-                        }
-
-                        if ((frame = grabber.grab()) != null) {
-                            BufferedImage bufferedImage = converter.getBufferedImage(frame);
-                            pasteImage(world, x, y, z, bufferedImage);
-                        } else {
-                            cancel();
-                        }
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            final boolean[] isStarted = {true};
+            new Thread(() -> {
+                try {
+                    if (isStarted[0]) {
+                        grabber.start();
+                        isStarted[0] = false;
                     }
+                } catch (FFmpegFrameGrabber.Exception e) {
+                    throw new RuntimeException(e);
                 }
+                try {
+                    Frame frame;
+                    long lastFrameTime = System.currentTimeMillis();
+                    boolean isFinished = true;
+                    while (isFinished) {
+                        if (System.currentTimeMillis() - lastFrameTime >= 1000 / grabber.getFrameRate()) {
+                            frame = grabber.grab();
+                            BufferedImage bufferedImage = converter.getBufferedImage(frame);
+                            if (bufferedImage != null) {
+                                videoFrameProcessor.addFrame(bufferedImage);
+                                lastFrameTime = System.currentTimeMillis();
+                            }
 
-            }.runTaskTimer(this, 0, 1);
+                            if (frame == null) {
+                                isFinished = false;
+                            }
+                        }
+                    }
+                    grabber.stop();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
 
-            grabber.stop();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private void pasteImage(World world, int x, int y, int z, BufferedImage image) {
+    void pasteImage(World world, int x, int y, int z, BufferedImage image) {
         long startTime = System.currentTimeMillis();
         int width = image.getWidth(null);
         int height = image.getHeight(null);
