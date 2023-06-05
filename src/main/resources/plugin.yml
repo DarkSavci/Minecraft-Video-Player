@@ -11,3 +11,5 @@ commands:
     description: Processes the stream
   undoimage:
     description: Undo the image
+  setres:
+    description: Sets the resolution

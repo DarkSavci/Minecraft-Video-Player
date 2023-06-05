@@ -10,10 +10,7 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.VoxelShape;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class ColorManager {
 
@@ -44,14 +41,13 @@ public class ColorManager {
             if (!material.isBlock() || material.isAir() || !material.isSolid()) continue;
             if (material.name().contains("GLASS") || material.equals(Material.BARRIER)) continue;
             if (material.name().contains("POWDER") || material.name().contains("SAND") || material.name().contains("GRAVEL")) continue;
-            if (material.equals(Material.REDSTONE_LAMP) || material.name().contains("SHULKER")) continue;
+            if (material.equals(Material.REDSTONE_LAMP) || material.name().contains("SHULKER") || material.name().contains("GLAZED")) continue;
 
-            world.getBlockAt(0, 0, 0).setType(material);
-            Block block = world.getBlockAt(0, 0, 0);
-            if (!isCube(block)) {
-                continue;
+            if (Main.speedMode) {
+                if (material.name().toUpperCase().contains("WOOL") || material.name().toUpperCase().contains("CONCRETE") || material.name().toUpperCase().contains("TERRACOTTA")){
+                    colorMap.put(material, getColor(material));
+                }
             }
-            colorMap.put(material, getColor(block));
 
         }
         world.getBlockAt(0, 0, 0).setType(defaultBlock.getType());
@@ -69,10 +65,44 @@ public class ColorManager {
     }
 
     // Get the closest material to the color
+    public static Material lastMaterial;
+    public static Color lastColor;
+
+//    public static Material getBlock(Color color) {
+//        // Check if the color is the same as the last color
+//        if (lastColor != null && lastColor.equals(color)) {
+//            return lastMaterial;
+//        }
+//
+//        // Create a priority queue to store the distance between the color and the material
+//        PriorityQueue<Map.Entry<Material, Double>> distanceQueue = new PriorityQueue<>(Comparator.comparingDouble(Map.Entry::getValue));
+//
+//        colorMap.forEach((material, materialColor) -> {
+//            double distance = getDistance(color, materialColor);
+//            distanceQueue.offer(Map.entry(material, distance));
+//        });
+//
+//        if (distanceQueue.isEmpty()) {
+//            return Material.AIR;
+//        }
+//
+//        // Set the last color and material
+//        lastColor = color;
+//        lastMaterial = distanceQueue.peek().getKey();
+//
+//        // Get the closest material
+//        return distanceQueue.poll().getKey();
+//    }
+
     public static Material getBlock(Color color) {
+        if (lastColor != null && lastColor.equals(color)) {
+            return lastMaterial;
+        }
+
         double minDistance = Double.MAX_VALUE;
         Material closestMaterial = Material.AIR;
 
+        // Iterate through the color map and find the closest color
         for (Map.Entry<Material, Color> materialColorEntry : colorMap.entrySet()) {
             Material material = materialColorEntry.getKey();
             Color materialColor = materialColorEntry.getValue();
@@ -83,6 +113,8 @@ public class ColorManager {
             }
         }
 
+        lastMaterial = closestMaterial;
+        lastColor = color;
         return closestMaterial;
     }
 
