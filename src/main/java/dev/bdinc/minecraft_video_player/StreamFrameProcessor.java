@@ -1,4 +1,4 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 public class StreamFrameProcessor {
 
-    private final AndroidInMC plugin;
+    private final Main plugin;
     private final World world;
     private final int x;
     private final int y;
     private final int z;
 
-    public StreamFrameProcessor(AndroidInMC plugin, World world, int x, int y, int z) {
+    public StreamFrameProcessor(Main plugin, World world, int x, int y, int z) {
         this.plugin = plugin;
         this.world = world;
         this.x = x;

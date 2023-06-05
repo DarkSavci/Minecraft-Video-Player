@@ -1,4 +1,4 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +9,7 @@ public class UndoCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        AndroidInMC.getInstance().undoLastImage();
+        Main.getInstance().undoLastImage();
         return false;
     }
 }

@@ -1,6 +1,6 @@
-name: AndroidInMC
+name: Minecraft-Video-Player
 version: '${project.version}'
-main: dev.bdinc.androidinmc.AndroidInMC
+main: dev.bdinc.minecraft_video_player.Main
 api-version: 1.19
 commands:
   processimage:

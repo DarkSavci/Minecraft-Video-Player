@@ -1,46 +1,34 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R3.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_19_R3.block.data.CraftBlockData;
 import org.bukkit.craftbukkit.v1_19_R3.util.CraftMagicNumbers;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
-import org.bytedeco.javacv.OpenCVFrameConverter;
-import org.bytedeco.opencv.opencv_core.IplImage;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public final class AndroidInMC extends JavaPlugin {
+public final class Main extends JavaPlugin {
 
-    private static AndroidInMC instance;
+    private static Main instance;
 
-    private static final int MAX_WIDTH = 240;
-    private static final int MAX_HEIGHT = 240;
+    private static final int MAX_WIDTH = 100;
+    private static final int MAX_HEIGHT = 100;
 
     public static ArrayList<Location> latestLocation = new ArrayList<>();
 
@@ -55,7 +43,7 @@ public final class AndroidInMC extends JavaPlugin {
         Objects.requireNonNull(getCommand("undoimage")).setExecutor(new UndoCommand());
     }
 
-    public static AndroidInMC getInstance() {
+    public static Main getInstance() {
         return instance;
     }
 

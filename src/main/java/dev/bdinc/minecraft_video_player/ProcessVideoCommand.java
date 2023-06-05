@@ -1,21 +1,20 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ProcessImageCommand implements CommandExecutor {
+public class ProcessVideoCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (args.length != 1) {
-            sender.sendMessage("Usage: /test <url>");
+            sender.sendMessage("Usage: /processvideo <url>");
             return false;
         }
 
@@ -28,16 +27,8 @@ public class ProcessImageCommand implements CommandExecutor {
 
         String url = args[0];
         sender.sendMessage("URL is set to " + url);
-        sender.sendMessage("Getting image!");
         try {
-            BufferedImage image = AndroidInMC.getInstance().getImageFromURL(new URL(url));
-            if (image == null) {
-                sender.sendMessage("Image is null!");
-                return false;
-            }
-            sender.sendMessage("Image is now gathered!");
-            sender.sendMessage("Processing image!");
-            AndroidInMC.getInstance().processImage(image, player.getLocation());
+            Main.getInstance().processVideo(new URL(url), player.getLocation());
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

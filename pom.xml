@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.bdinc</groupId>
-    <artifactId>AndroidInMC</artifactId>
+    <artifactId>minecraft_video_player</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>AndroidInMC</name>
+    <name>Minecraft-Video-Player</name>
 
     <properties>
         <java.version>1.8</java.version>

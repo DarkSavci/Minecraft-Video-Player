@@ -1,6 +1,5 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
-import net.minecraft.BlockUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -41,6 +40,7 @@ public class ColorManager {
         while (iterator.hasNext()) {
             Material material = iterator.next();
 
+            // Removing some blocks that are not suitable for this
             if (!material.isBlock() || material.isAir() || !material.isSolid()) continue;
             if (material.name().contains("GLASS") || material.equals(Material.BARRIER)) continue;
             if (material.name().contains("POWDER") || material.name().contains("SAND") || material.name().contains("GRAVEL")) continue;

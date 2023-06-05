@@ -1,14 +1,11 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class ProcessStreamCommand implements CommandExecutor {
 
@@ -22,7 +19,7 @@ public class ProcessStreamCommand implements CommandExecutor {
         Player player = (Player) sender;
 
 
-        AndroidInMC.getInstance().processStream(new File("./stream_output"), player.getLocation());
+        Main.getInstance().processStream(new File("./stream_output"), player.getLocation());
 
         return false;
     }

@@ -1,4 +1,4 @@
-package dev.bdinc.androidinmc;
+package dev.bdinc.minecraft_video_player;
 
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -9,14 +9,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class VideoFrameProcessor {
 
-    private final AndroidInMC plugin;
+    private final Main plugin;
     private final World world;
     private final int x;
     private final int y;
     private final int z;
     private final BlockingQueue<BufferedImage> frameQueue;
 
-    public VideoFrameProcessor(AndroidInMC plugin, World world, int x, int y, int z) {
+    public VideoFrameProcessor(Main plugin, World world, int x, int y, int z) {
         this.plugin = plugin;
         this.world = world;
         this.x = x;
