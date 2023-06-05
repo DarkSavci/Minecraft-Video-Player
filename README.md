@@ -1,12 +1,13 @@
 ﻿# Working video player in minecraft
 
-This plugin allows you to play videos/streams and paste images in Minecraft. It uses new thread to process videos/streams, so it can work with any fps you want assuming you have the processing power. I managed to make it work in 37fps with 20tps in a Ryzen 5 5600x (No overclocking).
+This plugin allows you to play videos/streams and paste images in Minecraft. It uses new thread to process videos/streams, so it can work with any fps you want assuming you have the processing power. I managed to make it work in 60fps (I'm sure i can go further) with 20tps in a Ryzen 5 5600x (No overclocking).
 
 ## How to use
 
 - /processvideo [url]
 - /processimage [url]
 - /processstream
+- /setres [width] [height] [fps] _(Only FPS changes dynamically, so you can change it while the video is playing. Width and height changes only when you process a new video/image)_
 
 ### How to setup streaming
 

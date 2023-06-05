@@ -23,6 +23,8 @@ public class SetResCommand implements CommandExecutor {
             return false;
         }
 
+        sender.sendMessage("§aResolution set to " + width + "x" + height + " at " + fps + " FPS.");
+
         Main.MAX_WIDTH = width;
         Main.MAX_HEIGHT = height;
         Main.MAX_FPS = fps;
