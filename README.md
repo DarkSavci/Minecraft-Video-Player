@@ -16,13 +16,14 @@ This plugin allows you to play videos/streams and paste images in Minecraft. It 
 ## How to build
 
 1. Clone the repository
-2. Build it using `mvn package -Djavacpp.platform=(your platform)` ex: `mvn package -Djavacpp.platform=linux-x86_64` for more information check [javacv](https://github.com/bytedeco/javacpp-presets#downloads).
+1. Build it using `mvn package -Djavacpp.platform=(your platform)` ex: `mvn package -Djavacpp.platform=linux-x86_64` for more information check [javacv](https://github.com/bytedeco/javacpp-presets#downloads).
 
 ## How to install
 
+1. Setup a paper/spigot server ([Instructions](https://youtu.be/M5SOwijvXZ0))
 1. Download the plugin from [releases](https://github.com/DarkSavci/minecraft-video-player/releases)
-2. Put the plugin in your plugins folder
-3. Start the server (Should only work in 1.19.4 but i didn't tested it in other versions)
+1. Put the plugin in your plugins folder
+1. Start the server (Should only work in 1.19.4 but i didn't tested it in other versions)
 
 # TO-DO
 
